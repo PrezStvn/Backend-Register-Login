@@ -42,7 +42,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
             String jwtToken = userService.login(loginDTO);

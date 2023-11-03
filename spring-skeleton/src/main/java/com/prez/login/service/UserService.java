@@ -4,6 +4,7 @@ import com.prez.login.model.LoginDTO;
 import com.prez.login.model.User;
 import com.prez.login.model.UserRegistrationDTO;
 import com.prez.login.repository.UserRepository;
+import com.prez.login.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +47,16 @@ public class UserService {
 
     public String login(LoginDTO loginDTO) {
         Optional<User> userOptional = userRepository.findByUsername(loginDTO.getUsername());
-
+        JwtUtil tokenGenerator = new JwtUtil();
         if (userOptional.isPresent() && PasswordService.checkPassword(loginDTO.getPassword(), userOptional.get().getPasswordHash())) {
-            // If the password is valid, generate a JWT for the user.
-            // replace with a real token \/
-            return "dummy-jwt-token";
+            // If the password is valid, generate a JWT for the user
+            return tokenGenerator.generateToken(loginDTO.getUsername());
         }
 
         return null;
+    }
+
+    public String getUserCity(String username) {
+        return username;
     }
 }
